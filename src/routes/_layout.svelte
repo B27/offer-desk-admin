@@ -9,8 +9,8 @@
     let oldSession; 
     onMount(async () =>{
         if(segment === 'login')return;
-        oldSession = user.refresh();
-        if(!await oldSession)return sapper.goto('/login');
+		oldSession = user.refresh();
+		if(!await oldSession)return sapper.goto('/login');
     });
 </script>
 

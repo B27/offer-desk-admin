@@ -1,7 +1,7 @@
 <script context="module">
     import {region} from '../../stores/region.js'
     export async function preload({ params, query }) {
-        console.log('load');
+        console.log('load regions');
         return {regions:await region.load()};
     }
 </script>

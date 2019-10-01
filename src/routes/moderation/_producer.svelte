@@ -1,6 +1,18 @@
 <script>
-    export let producer = {region:{}};
+    export let producer = {};
+    export let save;
+
     let show = false;
+    let saveStatus;
+    let pending;
+
+    const saveProducer = (cf) => async () => {
+        producer.isConfirmed = cf;
+        pending = true;
+        saveStatus = await save();
+        if(!saveStatus)producer.isConfirmed = !cf;
+        pending = false;
+    }
 </script>
 
 <style>
@@ -32,13 +44,9 @@
     .info{
         display:inline-block;
         margin:2px;
-        /* border:1px solid green; */
     }
     .full-desc{
         margin:2px;
-        /* width:100%; */
-        /* max-height:5em; */
-        /* border:1px solid green; */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -48,13 +56,16 @@
     .show{
         white-space: normal;
     }
+    .err{
+        color:red;
+    }
 </style>
 
 <div class="producer">
     <div style="flex-direction:row">
         <div class="info">{producer.name}</div>
         <div class="info">{producer.phoneNumber}</div>
-        <div class="info">{producer.region.name}</div>
+        <div class="info">{producer.region && producer.region.name || ""}</div>
         <div class="info" style="float:right;">{producer.feedbackPhoneNumber}</div>
     </div>
     <div class={"full-desc" + (show?" show":"")} on:click={() => show = !show}>
@@ -62,9 +73,17 @@
     </div>
     <div style="flex-direction:row">
         {#if producer.isConfirmed}
-            <button>&#x2714</button>
+            <button 
+                on:click={saveProducer(false)} 
+                disabled={pending}
+                class:err={saveStatus === false}
+            >&#x2714</button>
         {:else}
-            <button>&#x2716</button>
+            <button 
+                on:click={saveProducer(true)} 
+                disabled={pending}
+                class:err={saveStatus === false}
+                >&#x2716</button>
         {/if}
     </div>
 </div>

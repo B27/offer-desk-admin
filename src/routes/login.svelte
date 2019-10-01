@@ -9,4 +9,4 @@
     </title>
 </svelte:head>
 
-<SignInForm signin={(u,l) => user.signin(u,l)} successRedirect=""/>    
+<SignInForm signin={(u,l) => user.signin(u,l)} successRedirect="moderation"/>    
