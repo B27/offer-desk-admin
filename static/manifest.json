@@ -1,8 +1,8 @@
 {
 	"background_color": "#ffffff",
 	"theme_color": "#333333",
-	"name": "TODO",
-	"short_name": "TODO",
+	"name": "MHAN ADMIN PANEL",
+	"short_name": "MhanAP",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
