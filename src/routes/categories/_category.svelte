@@ -11,6 +11,7 @@
     let pending;
     let saveStatus;
     let deleteError = false;
+    let form;
 
     if (onMountFocus) {
         onMount(() => nameInput.focus());
@@ -21,6 +22,7 @@
         saveStatus = await save();
         pending = false;
     };
+
     const removeCategory = async () => {
         pending = true;
         deleteError = !(await remove());
@@ -32,12 +34,14 @@
     };
 
     function showLocalImg(file) {
-        let r = new FileReader();
-        r.onload = ({ target: { result } }) => {
-            category.image = result;
-            console.log(result);
+        let fr = new FileReader();
+        console.log('selected file', file);
+        
+        fr.onload = (result) => {
+            // category.image = result;
+            console.log('FileReader result', result);
         };
-        r.readAsDataURL(file);
+        fr.readAsArrayBuffer(file);
     }
 
     function readUrl({ target: input }) {
@@ -45,6 +49,7 @@
             showLocalImg(input.files[0]);
         }
     }
+
     function drag(args) {
         showLocalImg(args.dataTransfer.files[0]);
     }
@@ -109,6 +114,7 @@
     <input
         type="file"
         style="display:none"
+        accept="image/jpeg,image/png"
         bind:this={fileInput}
         on:change={readUrl} />
     <div class="category" on:drop|preventDefault={drag}>

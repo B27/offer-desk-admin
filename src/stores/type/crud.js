@@ -49,7 +49,9 @@ export function createCRUDStore(modelName) {
 
     async function load(skip = 0, limit = 100) {
         try {
-            const res = await Axios.get(`/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`);
+            const res = await Axios.get(
+                `/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`
+            );
             store.set(res.data);
             return res.data;
         } catch (err) {
@@ -60,12 +62,17 @@ export function createCRUDStore(modelName) {
         }
     }
 
+    async function ownFunction(fn) {
+        fn(store);
+    }
+
     return {
         subscribe: store.subscribe,
         set: store.set,
         load,
         sync,
         remove,
-        create
+        create,
+        ownFunction
     };
 }
