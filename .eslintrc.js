@@ -23,5 +23,8 @@ module.exports = {
         // 'prettier/prettier': 'warn',
         // "require-atomic-updates": "off",
         curly: 'warn'
+    },
+    settings: {
+        'import/core-modules': ['svelte']
     }
 };

@@ -8,7 +8,7 @@ function createUserStorage() {
     const store = writable({});
     const refresh = async () => {
         const token = localStorage.getItem("authToken");
-        if(!token)return false;
+        if(!token){return false;}
         Axios.defaults.headers = { Authorization: `Bearer ${token }`};
         try{
             const ans = await Axios.get("/api/refreshToken");
