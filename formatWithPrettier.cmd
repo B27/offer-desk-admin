@@ -1,0 +1,1 @@
+node_modules\.bin\prettier --write --plugin-search-dir=. ./**/*.svelte

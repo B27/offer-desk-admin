@@ -3,5 +3,7 @@
         "javascript",
         "javascriptreact",
         { "language": "svelte", "autoFix": true }
-    ]
+    ],
+    "svelte.plugin.svelte.format.enable": false,
+    "prettier.requireConfig": true
 }
