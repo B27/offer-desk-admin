@@ -52,8 +52,8 @@
 {#if newCategory}
     <Category
         bind:category={newCategory}
-        save={async () => {
-            const s = await category.create(newCategory);
+        save={async (form) => {
+            const s = await category.create(form);
             if (s) {
                 newReset();
             }

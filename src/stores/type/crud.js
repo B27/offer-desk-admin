@@ -1,22 +1,27 @@
 import Axios from 'axios';
 import { writable } from 'svelte/store';
 
-export function createCRUDStore(modelName) {
+export function createCRUDStore(
+    modelName,
+    customFn = { create: null, sync: null, update: null, remove: null }
+) {
     const store = writable([]);
 
-    const create = async value => {
-        try {
-            const res = await Axios.post(`/api/crud/${modelName}`, value);
-            console.log(res.data);
-            store.update(arr => [...arr, res.data]);
-            return true;
-        } catch (err) {
-            console.log(`#${modelName.toUpperCase()} CREATION ERROR`);
-            console.log(err);
+    const create = customFn.create
+        ? customFn.create(store, modelName)
+        : async value => {
+              try {
+                  const res = await Axios.post(`/api/crud/${modelName}`, value);
+                  console.log(res.data);
+                  store.update(arr => [...arr, res.data]);
+                  return true;
+              } catch (err) {
+                  console.log(`#${modelName.toUpperCase()} CREATION ERROR`);
+                  console.log(err);
 
-            return false;
-        }
-    };
+                  return false;
+              }
+          };
 
     const sync = async (local_id, value) => {
         try {
@@ -47,7 +52,7 @@ export function createCRUDStore(modelName) {
         }
     };
 
-    async function load(skip = 0, limit = 100) {
+    const load = async (skip = 0, limit = 100) => {
         try {
             const res = await Axios.get(
                 `/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`
@@ -60,11 +65,7 @@ export function createCRUDStore(modelName) {
 
             return false;
         }
-    }
-
-    async function ownFunction(fn) {
-        fn(store);
-    }
+    };
 
     return {
         subscribe: store.subscribe,
@@ -72,7 +73,6 @@ export function createCRUDStore(modelName) {
         load,
         sync,
         remove,
-        create,
-        ownFunction
+        create
     };
 }

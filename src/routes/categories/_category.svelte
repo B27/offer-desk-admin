@@ -19,7 +19,7 @@
 
     const saveCategory = async () => {
         pending = true;
-        saveStatus = await save();
+        saveStatus = await save(form);
         pending = false;
     };
 
@@ -38,9 +38,10 @@
         console.log('selected file', file);
         
         fr.onload = (result) => {
-            // category.image = result;
+            category.image = window.URL.createObjectURL(file);
             console.log('FileReader result', result);
         };
+
         fr.readAsArrayBuffer(file);
     }
 
@@ -110,9 +111,10 @@
     }
 </style>
 
-<form enctype="multipart/form-data" on:submit|preventDefault={saveCategory}>
+<form bind:this={form} enctype="multipart/form-data" on:submit|preventDefault={saveCategory}>
     <input
         type="file"
+        name="image"
         style="display:none"
         accept="image/jpeg,image/png"
         bind:this={fileInput}
@@ -126,6 +128,7 @@
             on:click={imageClick} />
         <input
             type="text"
+            name="name"
             on:click={onInputFocus}
             bind:value={category.name}
             bind:this={nameInput} />
