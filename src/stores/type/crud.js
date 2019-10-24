@@ -23,49 +23,58 @@ export function createCRUDStore(
               }
           };
 
-    const sync = async (local_id, value) => {
-        try {
-            const res = await Axios.patch(`/api/crud/${modelName}`, value);
-            store.update(arr => {
-                arr[local_id] = res.data;
-                return arr;
-            });
-            return true;
-        } catch (err) {
-            console.log(`#${modelName.toUpperCase()} SYNC ERROR`);
-            console.log(err);
+    const sync = customFn.sync
+        ? customFn.sync(store, modelName)
+        : async (local_id, value) => {
+              try {
+                  const res = await Axios.patch(
+                      `/api/crud/${modelName}`,
+                      value
+                  );
+                  store.update(arr => {
+                      arr[local_id] = res.data;
+                      return arr;
+                  });
+                  return true;
+              } catch (err) {
+                  console.log(`#${modelName.toUpperCase()} SYNC ERROR`);
+                  console.log(err);
 
-            return false;
-        }
-    };
+                  return false;
+              }
+          };
 
-    const remove = async _id => {
-        try {
-            await Axios.delete(`/api/crud/${modelName}?_id=${_id}`);
-            store.update(arr => arr.filter(v => _id !== v.id));
-            return true;
-        } catch (err) {
-            console.log(`#${modelName.toUpperCase()} REMOVE ERROR`);
-            console.log(err);
+    const remove = customFn.remove
+        ? customFn.remove(store, modelName)
+        : async _id => {
+              try {
+                  await Axios.delete(`/api/crud/${modelName}?_id=${_id}`);
+                  store.update(arr => arr.filter(v => _id !== v.id));
+                  return true;
+              } catch (err) {
+                  console.log(`#${modelName.toUpperCase()} REMOVE ERROR`);
+                  console.log(err);
 
-            return false;
-        }
-    };
+                  return false;
+              }
+          };
 
-    const load = async (skip = 0, limit = 100) => {
-        try {
-            const res = await Axios.get(
-                `/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`
-            );
-            store.set(res.data);
-            return res.data;
-        } catch (err) {
-            console.log(`#${modelName.toUpperCase()} LOAD ERROR`);
-            console.log(err);
+    const load = customFn.load
+        ? customFn.load(store, modelName)
+        : async (skip = 0, limit = 100) => {
+              try {
+                  const res = await Axios.get(
+                      `/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`
+                  );
+                  store.set(res.data);
+                  return res.data;
+              } catch (err) {
+                  console.log(`#${modelName.toUpperCase()} LOAD ERROR`);
+                  console.log(err);
 
-            return false;
-        }
-    };
+                  return false;
+              }
+          };
 
     return {
         subscribe: store.subscribe,
