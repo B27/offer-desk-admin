@@ -1,6 +1,6 @@
 <script context="module">
     import { category } from '../../stores/category.js';
-    export async function preload({ params, query }) {
+    export async function preload() {
         console.log('load category');
         return { categoryArr: await category.load() };
     }
@@ -64,6 +64,6 @@
 {:else}
     <div class="new_pane" on:click={newEdit}>
         <div class="big">+</div>
-        Создать новый регион
+        Создать новую категорию
     </div>
 {/if}

@@ -1,17 +1,17 @@
 <script context="module">
-    import { producer } from '../../stores/producer.js';
-    export async function preload({ params, query }) {
-        console.log('load producer');
-        return { producers: await producer.load() };
+    import { manufacturer } from '../../stores/manufacturer.js';
+    export async function preload() {
+        console.log('load manufacturer');
+        return { manufacturers: await manufacturer.load() };
     }
 </script>
 
 <script>
-    import Producer from './_producer.svelte';
-    export let producers;
+    import Manufacturer from './_manufacturer.svelte';
+    export let manufacturers;
 
-    producer.set(producers);
-    $: console.log($producer);
+    manufacturer.set(manufacturers);
+    $: console.log($manufacturer);
 </script>
 
 <svelte:head>
@@ -19,6 +19,6 @@
 </svelte:head>
 
 <h4>Модерация пользователей</h4>
-{#each $producer as cr, lid}
-    <Producer bind:producer={cr} save={() => producer.sync(lid, cr)} />
+{#each $manufacturer as cr, lid}
+    <Manufacturer bind:manufacturer={cr} save={() => manufacturer.sync(lid, cr)} />
 {/each}
