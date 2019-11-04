@@ -39,7 +39,7 @@
     <Region
         bind:region={cr}
         save={() => region.sync(lid, cr)}
-        remove={() => region.remove(cr._id)}
+        remove={() => region.remove(cr.id)}
         onInputFocus={newReset} />
 {/each}
 {#if newRegion}

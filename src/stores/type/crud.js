@@ -25,14 +25,19 @@ export function createCRUDStore(
 
     const sync = customFn.sync
         ? customFn.sync(store, modelName)
-        : async (local_id, value) => {
+        : async (id, value) => {
               try {
                   const res = await Axios.patch(
                       `/api/crud/${modelName}`,
-                      value
+                      value,
+                      {
+                          params: {
+                              id
+                          }
+                      }
                   );
                   store.update(arr => {
-                      arr[local_id] = res.data;
+                      arr[id] = res.data;
                       return arr;
                   });
                   return true;
@@ -46,10 +51,14 @@ export function createCRUDStore(
 
     const remove = customFn.remove
         ? customFn.remove(store, modelName)
-        : async _id => {
+        : async id => {
               try {
-                  await Axios.delete(`/api/crud/${modelName}?_id=${_id}`);
-                  store.update(arr => arr.filter(v => _id !== v.id));
+                  await Axios.delete(`/api/crud/${modelName}`, {
+                      params: {
+                          id
+                      }
+                  });
+                  store.update(arr => arr.filter(v => id !== v.id));
                   return true;
               } catch (err) {
                   console.log(`#${modelName.toUpperCase()} REMOVE ERROR`);
@@ -63,9 +72,12 @@ export function createCRUDStore(
         ? customFn.load(store, modelName)
         : async (skip = 0, limit = 100) => {
               try {
-                  const res = await Axios.get(
-                      `/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`
-                  );
+                  const res = await Axios.get(`/api/crud/${modelName}`, {
+                      params: {
+                          __limit: limit,
+                          __skip: skip
+                      }
+                  });
                   store.set(res.data);
                   return res.data;
               } catch (err) {

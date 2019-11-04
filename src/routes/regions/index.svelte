@@ -1,5 +1,5 @@
 <script context="module">
-    import { region } from '../../stores/region.js';
+    import { region } from '../../stores/regjs';
     export async function preload({ params, query }) {
         console.log('load regions');
         return { regions: await region.load() };
@@ -34,11 +34,11 @@
     <title>Управление регионами</title>
 </svelte:head>
 <h4>Управление регионами</h4>
-{#each $region as cr, lid}
+{#each $region as cr, index}
     <Region
         bind:region={cr}
-        save={() => region.sync(lid, cr)}
-        remove={() => region.remove(cr._id)}
+        save={() => region.sync(cr.id, cr)}
+        remove={() => region.remove(cr.id)}
         onInputFocus={newReset} />
 {/each}
 {#if newRegion}

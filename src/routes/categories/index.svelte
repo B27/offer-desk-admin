@@ -45,8 +45,8 @@
 {#each $category as cr, lid}
     <Category
         bind:category={cr}
-        save={() => category.sync(lid, cr)}
-        remove={() => category.remove(cr._id)}
+        save={() => category.sync(cr.id, cr)}
+        remove={() => category.remove(cr.id)}
         onInputFocus={newReset} />
 {/each}
 {#if newCategory}

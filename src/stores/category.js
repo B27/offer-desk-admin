@@ -33,9 +33,12 @@ export const category = createCRUDStore('category', {
     load(store, modelName) {
         return async (skip = 0, limit = 100) => {
             try {
-                const res = await Axios.get(
-                    `/api/crud/${modelName}?__limit=${limit}&__skip=${skip}`
-                );
+                const res = await Axios.get(`/api/crud/${modelName}`, {
+                    params: {
+                        __limit: limit,
+                        __skip: skip
+                    }
+                });
                 const newRes = res.data.map(category => ({
                     ...category,
                     image: `${apiBaseUrl}/api/images/${category.image}`
@@ -52,12 +55,14 @@ export const category = createCRUDStore('category', {
     },
 
     sync(store, modelName) {
-        return async (local_id, value) => {
+        return async (id, value) => {
             console.log('sync category called');
             try {
-                const res = await Axios.patch(`/api/crud/${modelName}`, value);
+                const res = await Axios.patch(`/api/crud/${modelName}`, value, {
+                    params: { id }
+                });
                 store.update(arr => {
-                    arr[local_id] = res.data;
+                    arr[id] = res.data;
                     return arr;
                 });
                 return true;
