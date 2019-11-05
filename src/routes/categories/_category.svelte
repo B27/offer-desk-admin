@@ -19,7 +19,16 @@
 
     const saveCategory = async () => {
         pending = true;
-        saveStatus = await save(form);
+
+        const formData = new FormData();
+        
+        formData.append('name', nameInput.value);
+         if (fileInput.files && fileInput.files[0]) {
+            formData.append('image', fileInput.files[0]);
+        }
+
+        saveStatus = await save(formData);
+
         pending = false;
     };
 

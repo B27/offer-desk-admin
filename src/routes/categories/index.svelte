@@ -45,7 +45,10 @@
 {#each $category as cr, lid}
     <Category
         bind:category={cr}
-        save={() => category.sync(cr.id, cr)}
+        save={async (form) => {
+            const s = await category.sync(cr.id, form);
+            return s;
+        }}
         remove={() => category.remove(cr.id)}
         onInputFocus={newReset} />
 {/each}

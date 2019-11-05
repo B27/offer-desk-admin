@@ -4,9 +4,8 @@ import { apiBaseUrl } from '../config';
 
 export const category = createCRUDStore('category', {
     create(store, modelName) {
-        return async form => {
+        return async formData => {
             try {
-                const formData = new FormData(form);
                 const res = await Axios.post(`/api/category`, formData);
                 console.log(
                     'category formData custom create, response data',
@@ -55,10 +54,10 @@ export const category = createCRUDStore('category', {
     },
 
     sync(store, modelName) {
-        return async (id, value) => {
+        return async (id, formData) => {
             console.log('sync category called');
             try {
-                const res = await Axios.patch(`/api/crud/${modelName}`, value, {
+                const res = await Axios.patch(`/api/category`, formData, {
                     params: { id }
                 });
                 store.update(arr => {
@@ -68,6 +67,25 @@ export const category = createCRUDStore('category', {
                 return true;
             } catch (err) {
                 console.log(`#${modelName.toUpperCase()} SYNC ERROR`);
+                console.log(err);
+
+                return false;
+            }
+        };
+    },
+
+    remove(store, modelName) {
+        return async id => {
+            try {
+                await Axios.delete(`/api/category`, {
+                    params: {
+                        id
+                    }
+                });
+                store.update(arr => arr.filter(v => id !== v.id));
+                return true;
+            } catch (err) {
+                console.log(`#${modelName.toUpperCase()} REMOVE ERROR`);
                 console.log(err);
 
                 return false;
