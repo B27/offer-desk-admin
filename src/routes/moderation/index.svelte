@@ -20,5 +20,5 @@
 
 <h4>Модерация пользователей</h4>
 {#each $manufacturer as cr, lid}
-    <Manufacturer bind:manufacturer={cr} save={() => manufacturer.sync(lid, cr)} />
+    <Manufacturer bind:manufacturer={cr} save={() => manufacturer.sync(cr.id, cr)} />
 {/each}

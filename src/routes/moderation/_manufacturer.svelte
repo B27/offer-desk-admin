@@ -20,6 +20,10 @@
 <style>
     button {
         margin-left: 2px;
+        padding: 12px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-size: 18px;
         background: none;
         border: none;
         box-shadow: none;
@@ -84,14 +88,14 @@
                 on:click={saveManufacturer(false)}
                 disabled={pending}
                 class:err={saveStatus === false}>
-                &#x2714
+                &#x2716
             </button>
         {:else}
             <button
                 on:click={saveManufacturer(true)}
                 disabled={pending}
                 class:err={saveStatus === false}>
-                &#x2716
+                &#x2714
             </button>
         {/if}
     </div>
