@@ -1,5 +1,6 @@
 <script>
     export let manufacturer = {};
+    export let regionName = 'Регион производителя удалён из БД';
     export let save;
 
     let show = false;
@@ -69,12 +70,12 @@
 <div class="manufacturer">
     <div style="flex-direction:row">
         <div class="info">{manufacturer.name}</div>
-        <div class="info">{manufacturer.phoneNumber}</div>
+        <!-- <div class="info">{manufacturer.phoneNumber}</div> -->
         <div class="info">
-            {(manufacturer.region && manufacturer.region.name) || ''}
+            {`Регион: ${regionName}`}
         </div>
         <div class="info" style="float:right;">
-            {manufacturer.feedbackPhoneNumber}
+            {`Контактный номер: ${manufacturer.feedbackPhoneNumber}`}
         </div>
     </div>
     <div
