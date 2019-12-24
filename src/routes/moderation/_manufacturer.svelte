@@ -1,5 +1,6 @@
 <script>
     export let manufacturer = {};
+    export let regionName = 'Регион производителя удалён из БД';
     export let save;
 
     let show = false;
@@ -20,6 +21,10 @@
 <style>
     button {
         margin-left: 2px;
+        padding: 12px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-size: 18px;
         background: none;
         border: none;
         box-shadow: none;
@@ -65,12 +70,12 @@
 <div class="manufacturer">
     <div style="flex-direction:row">
         <div class="info">{manufacturer.name}</div>
-        <div class="info">{manufacturer.phoneNumber}</div>
+        <!-- <div class="info">{manufacturer.phoneNumber}</div> -->
         <div class="info">
-            {(manufacturer.region && manufacturer.region.name) || ''}
+            {`Регион: ${regionName}`}
         </div>
         <div class="info" style="float:right;">
-            {manufacturer.feedbackPhoneNumber}
+            {`Контактный номер: ${manufacturer.feedbackPhoneNumber}`}
         </div>
     </div>
     <div
@@ -84,14 +89,14 @@
                 on:click={saveManufacturer(false)}
                 disabled={pending}
                 class:err={saveStatus === false}>
-                &#x2714
+                &#x2716
             </button>
         {:else}
             <button
                 on:click={saveManufacturer(true)}
                 disabled={pending}
                 class:err={saveStatus === false}>
-                &#x2716
+                &#x2714
             </button>
         {/if}
     </div>
