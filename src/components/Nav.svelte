@@ -67,6 +67,14 @@
         <li>
             <a
                 rel="prefetch"
+                class={segment === 'ads' ? 'selected' : ''}
+                href="ads">
+                Объявления
+            </a>
+        </li>
+        <li>
+            <a
+                rel="prefetch"
                 class={segment === 'categories' ? 'selected' : ''}
                 href="categories">
                 Категории
