@@ -70,12 +70,13 @@ export function createCRUDStore(
 
     const load = customFn.load
         ? customFn.load(store, modelName)
-        : async (skip = 0, limit = 100) => {
+        : async (skip = 0, limit = 100,sort = '') => {
               try {
                   const res = await Axios.get(`/api/crud/${modelName}`, {
                       params: {
                           __limit: limit,
-                          __skip: skip
+                          __skip: skip,
+                          __sort:sort
                       }
                   });
                   store.set(res.data);
